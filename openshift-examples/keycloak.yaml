@@ -65,7 +65,10 @@ objects:
                   value: '${KEYCLOAK_ADMIN_PASSWORD}'
                 - name: KC_PROXY
                   value: 'edge'
-              image: quay.io/keycloak/keycloak:17.0.0
+                - name: KC_DB
+                  value: dev-mem # dev-file
+              image: docker.io/andreatp/data-keycloak:mine
+              # image: quay.io/keycloak/keycloak:17.0.0
               livenessProbe:
                 failureThreshold: 100
                 httpGet:
@@ -86,13 +89,13 @@ objects:
                 initialDelaySeconds: 30
               securityContext:
                 privileged: false
-              volumeMounts:
-                - mountPath: /opt/keycloak/data
-                  name: empty
+              # volumeMounts:
+              #   - mountPath: /opt/keycloak/data
+              #     name: empty
               args: ["start-dev"]
-          volumes:
-            - name: empty
-              emptyDir: {}
+          # volumes:
+          #   - name: empty
+          #     emptyDir: {}
       triggers:
         - type: ConfigChange
 parameters:
